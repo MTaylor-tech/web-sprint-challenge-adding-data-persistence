@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
 	}
 })
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", db.validateResourceId(), async (req, res, next) => {
 	try {
 		const resource = await db.getResource(req.params.id)
 		if (!resource) {
@@ -28,7 +28,7 @@ router.get("/:id", async (req, res, next) => {
 	}
 })
 
-router.get("/:id/projects", async(req, res, next) => {
+router.get("/:id/projects", db.validateResourceId(), async(req, res, next) => {
   try {
     const projects = await db.getProjectsByResource(req.params.id)
     if (projects.length<1) {
@@ -42,7 +42,7 @@ router.get("/:id/projects", async(req, res, next) => {
 	}
 })
 
-router.post("/", async (req, res, next) => {
+router.post("/", db.validateResource(), async (req, res, next) => {
 	try {
 		const resource = db.addResource(req.body)
 
@@ -52,7 +52,7 @@ router.post("/", async (req, res, next) => {
 	}
 })
 
-router.put("/:id", db.validateResourceId(), async (req, res, next) => {
+router.put("/:id", db.validateResourceId(), db.validateResource(), async (req, res, next) => {
 	try {
 		req.body.id = req.params.id
 		const resource = db.updateResource(req.params.id, req.body)

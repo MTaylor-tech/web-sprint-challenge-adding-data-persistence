@@ -74,6 +74,55 @@ async function addTask(task) {
     .first("t.description","t.notes","t.complete","p.name as project_name","p.description as project_description")
 }
 
+function validateProject() {
+	return (req,res,next) => {
+    if (!req.body || !req.body.name) {
+  		// Make sure you have a return statement, otherwise the
+  		// function will continue running and you'll see ERR_HTTP_HEADERS_SENT
+  		res.status(400).json({
+  			message: "Need a value for name",
+  		})
+  	} else {
+			if (!req.body.complete) {
+				req.body.complete = false
+			}
+      next()
+    }
+  }
+}
+
+function validateProjectForUpdate() {
+	return (req,res,next) => {
+    if (!req.body || !req.body.name) {
+  		// Make sure you have a return statement, otherwise the
+  		// function will continue running and you'll see ERR_HTTP_HEADERS_SENT
+  		res.status(400).json({
+  			message: "Need a value for name",
+  		})
+  	} else {
+      next()
+    }
+  }
+}
+
+function validateTask() {
+	return (req,res,next) => {
+    if (!req.body || !req.body.description) {
+  		// Make sure you have a return statement, otherwise the
+  		// function will continue running and you'll see ERR_HTTP_HEADERS_SENT
+  		res.status(400).json({
+  			message: "Need a value for description",
+  		})
+  	} else {
+			if (!req.body.complete) {
+				req.body.complete = false
+			}
+      next()
+    }
+  }
+}
+
+
 module.exports = {
 	getProjects,
 	getProject,
@@ -84,4 +133,7 @@ module.exports = {
 	removeProject,
 	validateProjectId,
   addTask,
+	validateProject,
+	validateTask,
+	validateProjectForUpdate,
 }

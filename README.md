@@ -80,12 +80,12 @@ Your finished project must include all of the following requirements:
   - [x] a `task` belongs to only one `project`.
   - [x] a `project` can use multiple `resources`. Example of `resources` are: computer, conference room, microphone, delivery van.
   - [x] the same `resource` can be used in multiple `projects`.
-  - [ ] when adding `projects` the client must provide a name, the description is optional.
-  - [ ] when adding `resources` the client must provide a name, the description is optional.
-  - [ ] when adding a `task` the client must provide a description, the notes are optional.
-  - [ ] when adding a `task` the client must provide the `id` of an existing project.
-  - [ ] for `projects` and `tasks` if no value is provided for the `completed` property, the API should provide a default value of `false`.
-- [ ] Build an API with endpoints for:
+  - [x] when adding `projects` the client must provide a name, the description is optional.
+  - [x] when adding `resources` the client must provide a name, the description is optional.
+  - [x] when adding a `task` the client must provide a description, the notes are optional.
+  - [x] when adding a `task` the client must provide the `id` of an existing project.
+  - [x] for `projects` and `tasks` if no value is provided for the `completed` property, the API should provide a default value of `false`.
+- [x] Build an API with endpoints for:
   - [x] adding resources.
   - [x] retrieving a list of resources.
   - [x] adding projects.
