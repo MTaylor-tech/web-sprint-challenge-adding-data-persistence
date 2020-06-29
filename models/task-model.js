@@ -45,11 +45,43 @@ function validateTaskId() {
 	}
 }
 
+function validateTask() {
+	return (req,res,next) => {
+    if (!req.body || !req.body.description) {
+  		// Make sure you have a return statement, otherwise the
+  		// function will continue running and you'll see ERR_HTTP_HEADERS_SENT
+  		res.status(400).json({
+  			message: "Need a value for description",
+  		})
+  	} else {
+			if (!req.body.complete) {
+				req.body.complete = false
+			}
+      next()
+    }
+  }
+}
+
+function validateTaskForUpdate() {
+	return (req,res,next) => {
+    if (!req.body || !req.body.description) {
+  		// Make sure you have a return statement, otherwise the
+  		// function will continue running and you'll see ERR_HTTP_HEADERS_SENT
+  		res.status(400).json({
+  			message: "Need a value for description",
+  		})
+  	} else {
+      next()
+    }
+  }
+}
 
 module.exports = {
 	getTasks,
 	getTask,
   updateTask,
   removeTask,
-  validateTaskId
+  validateTaskId,
+	validateTask,
+	validateTaskForUpdate,
 }

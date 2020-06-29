@@ -27,7 +27,7 @@ router.get("/:id", async (req, res, next) => {
 	}
 })
 
-router.get("/:id/resources", async (req, res, next) => {
+router.get("/:id/resources", db.validateProjectId(), async (req, res, next) => {
   try {
     const resources = await db.getResourcesByProject(req.params.id)
     if (resources.length<1) {
@@ -42,7 +42,7 @@ router.get("/:id/resources", async (req, res, next) => {
 })
 
 
-router.get("/:id/tasks", async (req, res, next) => {
+router.get("/:id/tasks", db.validateProjectId(), async (req, res, next) => {
   try {
     const tasks = await db.getTasksByProject(req.params.id)
     if (tasks.length<1) {
@@ -56,7 +56,7 @@ router.get("/:id/tasks", async (req, res, next) => {
 	}
 })
 
-router.post("/", async (req, res, next) => {
+router.post("/", db.validateProject(), async (req, res, next) => {
 	try {
 		const project = db.addProject(req.body)
 
@@ -66,7 +66,7 @@ router.post("/", async (req, res, next) => {
 	}
 })
 
-router.put("/:id", db.validateProjectId(), async (req, res, next) => {
+router.put("/:id", db.validateProjectId(), db.validateProjectForUpdate(), async (req, res, next) => {
 	try {
 		req.body.id = req.params.id
 		const project = db.updateProject(req.params.id, req.body)
@@ -87,7 +87,7 @@ router.delete("/:id", db.validateProjectId(), async (req, res, next) => {
 	}
 })
 
-router.post("/:id/tasks", db.validateProjectId(), async (req, res, next) => {
+router.post("/:id/tasks", db.validateProjectId(), db.validateTask(), async (req, res, next) => {
 	try {
 		req.body.project_id = req.params.id
 		const task = db.addTask(req.body)

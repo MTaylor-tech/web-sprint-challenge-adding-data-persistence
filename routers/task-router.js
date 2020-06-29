@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
 	}
 })
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", db.validateTaskId(), async (req, res, next) => {
 	try {
 		const task = await db.getTask(req.params.id)
 		if (!task) {
@@ -28,7 +28,7 @@ router.get("/:id", async (req, res, next) => {
 	}
 })
 
-router.put("/:id", db.validateTaskId(), async (req, res, next) => {
+router.put("/:id", db.validateTaskId(), db.validateTaskForUpdate(), async (req, res, next) => {
 	try {
 		req.body.id = req.params.id
 		const task = db.updateTask(req.params.id, req.body)
