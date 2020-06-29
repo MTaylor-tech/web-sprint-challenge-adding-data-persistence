@@ -27,7 +27,51 @@ function getTasksByProject(project_id) {
   return db("tasks as t")
     .where("project_id", project_id)
     .join("projects as p", "p.id", "t.project_id")
-    .select("t.description","t.notes","t.complete","p.name as project_name")
+    .select("t.description","t.notes","t.complete","p.name as project_name","p.description as project_description")
+}
+
+async function addProject(project) {
+	const [id] = await db("projects").insert(project)
+	return getProject(id)
+}
+
+async function updateProject(id, changes) {
+	await db("projects").where({ id }).update(changes)
+	const project = await db("projects").where({ id }).first()
+	return project
+}
+
+function removeProject(id) {
+	return db("projects").where({id}).del()
+}
+
+function validateProjectId() {
+	return async (req, res, next) => {
+		try {
+			const { id } = req.params
+			const project = await db("projects").where({ id }).first()
+
+			if (!project) {
+				return res.status(404).json({
+					message: "Project not found",
+				})
+			}
+
+			req.project = project
+			next()
+		} catch(err) {
+			next(err)
+		}
+	}
+}
+
+async function addTask(task) {
+  const [id] = await db("tasks").insert(task)
+
+  return db("tasks as t")
+    .join("projects as p", "p.id", "t.project_id")
+    .where("t.id",id)
+    .first("t.description","t.notes","t.complete","p.name as project_name","p.description as project_description")
 }
 
 module.exports = {
@@ -35,4 +79,9 @@ module.exports = {
 	getProject,
   getResourcesByProject,
   getTasksByProject,
+	addProject,
+	updateProject,
+	removeProject,
+	validateProjectId,
+  addTask,
 }

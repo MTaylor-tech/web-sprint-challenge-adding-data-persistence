@@ -20,8 +20,47 @@ function getProjectsByResource(resource_id) {
     .select("p.name as project_name", "p.description", "p.complete")
 }
 
+async function addResource(resource) {
+	const [id] = await db("resources").insert(resource)
+	return getResource(id)
+}
+
+async function updateResource(id, changes) {
+	await db("resources").where({ id }).update(changes)
+	const resource = await db("resources").where({ id }).first()
+	return resource
+}
+
+function removeResource(id) {
+	return db("resources").where({id}).del()
+}
+
+function validateResourceId() {
+	return async (req, res, next) => {
+		try {
+			const { id } = req.params
+			const resource = await db("resources").where({ id }).first()
+
+			if (!resource) {
+				return res.status(404).json({
+					message: "Resource not found",
+				})
+			}
+
+			req.resource = resource
+			next()
+		} catch(err) {
+			next(err)
+		}
+	}
+}
+
 module.exports = {
 	getResources,
 	getResource,
   getProjectsByResource,
+	addResource,
+	updateResource,
+	removeResource,
+  validateResourceId
 }

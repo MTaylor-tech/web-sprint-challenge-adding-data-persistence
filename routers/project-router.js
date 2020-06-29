@@ -56,5 +56,49 @@ router.get("/:id/tasks", async (req, res, next) => {
 	}
 })
 
+router.post("/", async (req, res, next) => {
+	try {
+		const project = db.addProject(req.body)
+
+		res.status(201).json(project)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.put("/:id", db.validateProjectId(), async (req, res, next) => {
+	try {
+		req.body.id = req.params.id
+		const project = db.updateProject(req.params.id, req.body)
+
+		res.json(project)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.delete("/:id", db.validateProjectId(), async (req, res, next) => {
+	try {
+		await db.removeProject(req.params.id)
+
+		res.json({message: "Project removed", project: req.project})
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.post("/:id/tasks", db.validateProjectId(), async (req, res, next) => {
+	try {
+		req.body.project_id = req.params.id
+		const task = db.addTask(req.body)
+
+		res.json(task)
+	} catch(err) {
+		next(err)
+	}
+})
+
+
+
 
 module.exports = router
