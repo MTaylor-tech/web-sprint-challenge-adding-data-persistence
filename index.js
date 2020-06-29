@@ -12,9 +12,9 @@ server.use(helmet())
 server.use(express.json())
 
 server.use("/api",welcomeRouter)
-//server.use("/api/projects",projectRouter)
-//server.use("/api/resources",resourceRouter)
-//server.use("/api/tasks",taskRouter)
+server.use("/api/projects",projectRouter)
+server.use("/api/resources",resourceRouter)
+server.use("/api/tasks",taskRouter)
 
 server.use((err, req, res, next) => {
 	console.log(err)
