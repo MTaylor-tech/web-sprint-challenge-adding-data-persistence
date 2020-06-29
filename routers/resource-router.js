@@ -1,6 +1,7 @@
 const express = require("express")
 const db = require("../models/resource-model")
 
+
 const router = express.Router()
 
 router.get("/", async (req, res, next) => {
@@ -37,6 +38,37 @@ router.get("/:id/projects", async(req, res, next) => {
     }
     res.json(projects)
   } catch(err) {
+		next(err)
+	}
+})
+
+router.post("/", async (req, res, next) => {
+	try {
+		const resource = db.addResource(req.body)
+
+		res.status(201).json(resource)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.put("/:id", db.validateResourceId(), async (req, res, next) => {
+	try {
+		req.body.id = req.params.id
+		const resource = db.updateResource(req.params.id, req.body)
+
+		res.json(resource)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.delete("/:id", db.validateResourceId(), async (req, res, next) => {
+	try {
+		await db.removeResource(req.params.id)
+
+		res.json({message: "Resource removed", resource: req.resource})
+	} catch(err) {
 		next(err)
 	}
 })
