@@ -47,12 +47,16 @@ Commit your code regularly and meaningfully. This helps both you (in case you ev
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
 
 1. Explain the difference between `Relational Databases` and `SQL`.
+SQL is a standardized language used to access and manipulate table structure and data in a relational database. A relational database is a data storage method that uses unique index keys to address the data resources.
 
 2. Why do tables need a `primary key`?
+A primary key forces all resources in a table to be unique, which means that operations performed on a resource are always performed on the correct resource. If items were not addressed by unique identifiers, table updates could be performed on the wrong resource.
 
 3. What is the name given to a table column that references the primary key on another table.
+A foreign key references the primary key of a "foreign" table.
 
 4. What do we need in order to have a _many to many_ relationship between two tables.
+In most relational databases, including SQLite, PostgreSQL, MySQL, and MSSQL, an intermediary "join" table is required to create many-to-many relationships. The join table holds, at minimum, a reference to the primary keys on each table meant to be joined. It may also hold data that is associated with that connection.
 
 You are expected to be able to answer questions in these areas. Your responses contribute to your Sprint Challenge grade.
 
@@ -82,11 +86,11 @@ Your finished project must include all of the following requirements:
   - [ ] when adding a `task` the client must provide the `id` of an existing project.
   - [ ] for `projects` and `tasks` if no value is provided for the `completed` property, the API should provide a default value of `false`.
 - [ ] Build an API with endpoints for:
-  - [ ] adding resources.
+  - [x] adding resources.
   - [x] retrieving a list of resources.
-  - [ ] adding projects.
+  - [x] adding projects.
   - [x] retrieving a list of projects.
-  - [ ] adding tasks.
+  - [x] adding tasks.
   - [x] retrieving a list of tasks. **The list of tasks should include the project name and project description**.
 
 In your solution, it is essential that you follow best practices and produce clean and professional results. You will be scored on your adherence to proper code style and good organization. Schedule time to review, refine, and assess your work and perform basic professional polishing including spell-checking and grammar-checking on your work. It is better to submit a challenge that meets MVP than one that attempts too much and does not.
