@@ -3,7 +3,7 @@ exports.up = async function(knex) {
 		table.increments("id")
 		table.text("name").notNull()
 		table.text("description")
-    table.boolean("complete").notNull().defaultTo(false)
+    table.boolean("complete").notNullable().defaultTo(false)
 	})
 
 	await knex.schema.createTable("resources", (table) => {
@@ -16,7 +16,7 @@ exports.up = async function(knex) {
 		table.increments("id")
 		table.text("description").notNull()
     table.text("notes")
-    table.boolean("complete").notNull().defaultTo(false)
+    table.boolean("complete").notNullable().defaultTo(false)
 		// creates a foreign key
 		table
 			// should be the same data type as the primary key we're pointing at
